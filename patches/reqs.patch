@@ -1,0 +1,63 @@
+--- reqs.c	2011-02-07 14:31:03.000000000 +0200
++++ reqsnew.c	2016-02-19 23:00:07.000000000 +0200
+@@ -79,6 +79,46 @@
+ #define CHECK_LWS(header, len)                                  \
+   ((len) > 0 && (header[0] == ' ' || header[0] == '\t'))
+ 
++
++static void extract_levelone_logs(struct conn_s *connptr)
++{
++#define TIME_LENGTH 16
++#define STR_LENGTH 256
++#define URL_LENGTH 128
++#define LEVELONE_FILE "/tmp/cclientproxy.log"
++
++	time_t nowtime;
++	char time_string[TIME_LENGTH];
++	char str[STR_LENGTH];
++	char url[URL_LENGTH];
++	ssize_t ret;
++	int len, i=0;
++	char *ptr = connptr->request_line;	
++	static int fd;
++
++
++	ptr += 4;	/* remove GET */
++	while(ptr[i]) {
++		if((ptr[i] == ' ') || (ptr[i] == '?') || (ptr[i] == '\n'))
++			break;
++		url[i] = ptr[i];
++		i++;	
++	}
++	url[i] = 0;
++	strftime (time_string, TIME_LENGTH, "%b %d %H:%M:%S", localtime (&nowtime));
++	len = snprintf (str, STR_LENGTH, "AT:%s;IP:%s;URL:%s;\n", time_string, connptr->client_ip_addr, url);
++	if(!fd) {
++		fd = open(LEVELONE_FILE, O_RDWR | O_CREAT | O_APPEND, 0600);
++		if(fd < 0) perror("Error opening log file");
++	}
++
++	if((fd > 0) && (len > 0)) {
++		ret = write(fd, str, len);
++		if(ret < 0) perror("Error writing to log file");
++	}
++}
++
++
+ /*
+  * Read in the first line from the client (the request line for HTTP
+  * connections. The request line is allocated from the heap, but it must
+@@ -114,9 +154,13 @@
+         log_message (LOG_CONN, "Request (file descriptor %d): %s",
+                      connptr->client_fd, connptr->request_line);
+ 
++		if(memcmp(connptr->request_line, "GET http", 8) == 0)
++			extract_levelone_logs(connptr);
++
+         return 0;
+ }
+ 
++
+ /*
+  * Free all the memory allocated in a request.
+  */
