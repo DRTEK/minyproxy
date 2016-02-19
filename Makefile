@@ -7,7 +7,7 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=tinyproxy
+PKG_NAME:=tinyproxy 
 ORG_NAME:=tinyproxy
 PKG_VERSION:=1.8.3
 PKG_RELEASE:=2
@@ -50,5 +50,3 @@ define Package/tinyproxy/install
 endef
 
 $(eval $(call BuildPackage,tinyproxy))
-
-
