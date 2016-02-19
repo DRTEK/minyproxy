@@ -7,11 +7,12 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=tinyproxy
+PKG_NAME:=minyproxy
+ORG_NAME:=tinyproxy
 PKG_VERSION:=1.8.3
 PKG_RELEASE:=2
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+PKG_SOURCE:=$(ORG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=http://www.banu.com/pub/tinyproxy/1.8/
 PKG_MD5SUM:=292ac51da8ad6ae883d4ebf56908400d
 PKG_MAINTAINER:=Jo-Philipp Wich <jow@openwrt.org>
@@ -28,7 +29,7 @@ define Package/tinyproxy
   URL:=http://tinyproxy.sourceforge.net/
 endef
 
-define Package/tinyproxy/conffiles
+define Package/minyproxy/conffiles
 /etc/config/tinyproxy
 endef
 
@@ -37,7 +38,7 @@ CONFIGURE_ARGS+= \
 	--enable-transparent \
 	--disable-regexcheck \
 
-define Package/tinyproxy/install
+define Package/minyproxy/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(CP) $(PKG_INSTALL_DIR)/usr/sbin/tinyproxy $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/usr/share/tinyproxy
@@ -48,4 +49,4 @@ define Package/tinyproxy/install
 	$(INSTALL_BIN) ./files/tinyproxy.init $(1)/etc/init.d/tinyproxy
 endef
 
-$(eval $(call BuildPackage,tinyproxy))
+$(eval $(call BuildPackage,minyproxy))
