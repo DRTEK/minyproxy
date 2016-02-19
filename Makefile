@@ -21,7 +21,7 @@ PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/tinyproxy
+define Package/minyproxy
   SUBMENU:=Web Servers/Proxies
   SECTION:=net
   CATEGORY:=Network
@@ -49,4 +49,4 @@ define Package/minyproxy/install
 	$(INSTALL_BIN) ./files/tinyproxy.init $(1)/etc/init.d/tinyproxy
 endef
 
-$(eval $(call BuildPackage,minyproxy))
+$(eval $(call BuildPackage,tinyproxy))
