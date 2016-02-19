@@ -7,7 +7,7 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=minyproxy
+PKG_NAME:=tinyproxy
 ORG_NAME:=tinyproxy
 PKG_VERSION:=1.8.3
 PKG_RELEASE:=2
@@ -21,7 +21,7 @@ PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/minyproxy
+define Package/tinyproxy
   SUBMENU:=Web Servers/Proxies
   SECTION:=net
   CATEGORY:=Network
@@ -29,7 +29,7 @@ define Package/minyproxy
   URL:=http://tinyproxy.sourceforge.net/
 endef
 
-define Package/minyproxy/conffiles
+define Package/tinyproxy/conffiles
 /etc/config/tinyproxy
 endef
 
@@ -38,7 +38,7 @@ CONFIGURE_ARGS+= \
 	--enable-transparent \
 	--disable-regexcheck \
 
-define Package/minyproxy/install
+define Package/tinyproxy/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(CP) $(PKG_INSTALL_DIR)/usr/sbin/tinyproxy $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/usr/share/tinyproxy
